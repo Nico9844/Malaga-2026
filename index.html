@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Málaga 2026</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Georgia, serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, #ffb88c, #de6262);
+}
+
+/* 🌊 Wellen */
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 200px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 40%;
+    animation: wave 10s infinite linear;
+}
+
+.wave:nth-child(2) {
+    bottom: -40px;
+    opacity: 0.4;
+    animation-duration: 14s;
+}
+
+.wave:nth-child(3) {
+    bottom: -80px;
+    opacity: 0.2;
+    animation-duration: 18s;
+}
+
+@keyframes wave {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-25%); }
+    100% { transform: translateX(-50%); }
+}
+
+/* 💌 Karte */
+.card {
+    position: relative;
+    z-index: 10;
+    width: 360px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    text-align: center;
+    backdrop-filter: blur(8px);
+}
+
+h1 {
+    color: #c0392b;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #7a5c58;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+button {
+    margin-top: 12px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background: #c0392b;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #922b21;
+}
+
+/* 💌 ENVELOPE */
+#envelope {
+    display: none;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.envelope-box {
+    width: 220px;
+    height: 140px;
+    margin: 0 auto;
+    position: relative;
+    background: #fff;
+    border: 2px solid #c0392b;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Klappe */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #c0392b;
+    transform-origin: top;
+    transition: transform 1s ease;
+}
+
+/* geöffnet */
+.open .envelope-flap {
+    transform: rotateX(180deg);
+}
+
+/* 💛 Brief */
+.message {
+    display: none;
+    margin-top: 20px;
+    color: #3b2f2f;
+    line-height: 1.6;
+    text-align: left;
+}
+
+/* ✍️ Schreibmaschine */
+.typewriter {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid #c0392b;
+    white-space: pre-wrap;
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+.malaga {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #8b6b61;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+
+<div class="card">
+    <h1>Málaga 2026</h1>
+    <p class="subtitle">Ein stiller Moment am Meer</p>
+
+    <input type="password" id="pw" placeholder="Passwort eingeben" />
+    <br/>
+    <button onclick="check()">Öffnen</button>
+
+    <!-- 💌 Umschlag -->
+    <div id="envelope" onclick="openEnvelope()">
+        <p style="font-size:14px; color:#7a5c58;">📩 Tippe auf den Umschlag</p>
+        <div class="envelope-box" id="envBox">
+            <div class="envelope-flap"></div>
+        </div>
+    </div>
+
+    <!-- 💛 Nachricht -->
+    <div class="message" id="msg">
+        <h2>Kleiner Stern ❤️</h2>
+        <div id="text" class="typewriter"></div>
+
+        <div class="malaga">
+            ☀️ Málaga · Spanien · Meer · Erinnerungen
+        </div>
+    </div>
+</div>
+
+<script>
+function check() {
+    const input = document.getElementById("pw").value.trim();
+
+    if (input === "Kleiner Stern") {
+        document.getElementById("envelope").style.display = "block";
+    } else {
+        alert("Falsches Passwort ❤️");
+    }
+}
+
+function openEnvelope() {
+    const env = document.getElementById("envBox");
+    env.classList.add("open");
+
+    setTimeout(() => {
+        document.getElementById("envelope").style.display = "none";
+        document.getElementById("msg").style.display = "block";
+        startTypewriter();
+    }, 1000);
+}
+
+function startTypewriter() {
+    const text = `Zwischen den warmen Straßen von Málaga,
+dem goldenen Licht der Sonne auf dem Meer
+und den ruhigen Abenden am Hafen
+habe ich oft an dich gedacht.
+
+Dieser Ort war wunderschön –
+aber ohne dich wäre er nur ein Ort geblieben.
+
+Mit dir wurde er Erinnerung.
+Und Erinnerung wurde Gefühl.
+
+Du bist mein Lieblingsort,
+egal wo ich gerade bin. ❤️`;
+
+    let i = 0;
+    const speed = 35;
+    const target = document.getElementById("text");
+
+    function type() {
+        if (i < text.length) {
+            target.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+
+    type();
+}
+</script>
+
+</body>
+</html>
