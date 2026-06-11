@@ -176,7 +176,7 @@ function checkPassword(){
     const password =
         document.getElementById("pw").value.trim();
 
-    if(password === "Kleiner Stern"){
+    if(password.toLowerCase() === "kleiner stern"){
 
         document.getElementById("message")
             .style.display = "block";
